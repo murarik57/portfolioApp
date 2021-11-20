@@ -1,8 +1,22 @@
 const express = require("express");
-const app = express();
+
 const PORT = process.env.PORT || 5000;
+const helmet = require("helmet");
+const connectDB = require("./config/db");
 
-//Browser display
-app.get("/", (req, res) => res.send("Backend API Server is Running"));
+const app = express();
 
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+//db connection
+connectDB();
+
+//middleware call
+app.use(helmet());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+app.get("/", (req, res) => {
+  console.log(req);
+  res.json("API is runnig");
+});
+
+app.listen(PORT, () => console.log(`Backend Server is runnig on Port ${PORT}`));
