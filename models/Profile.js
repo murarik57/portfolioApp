@@ -80,12 +80,8 @@ const ProfileSchema = new Schema({
       },
       current: {
         type: Boolean,
-        required: true,
       },
-      current: {
-        type: Boolean,
-        required: true,
-      },
+
       description: {
         type: String,
       },
