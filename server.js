@@ -25,7 +25,6 @@ app.use("/api/profile", profileRoutes);
 app.use("/api/posts", postsRoutes);
 
 app.get("/", (req, res) => {
-  console.log(req);
   res.json("API is runnig");
 });
 

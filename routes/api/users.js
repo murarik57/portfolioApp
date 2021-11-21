@@ -3,11 +3,14 @@ const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const gravatar = require("gravatar");
 const bcrypt = require("bcryptjs");
+const config = require("config");
+const jwtSecret = config.get("jwtSecret");
+const jwt = require("jsonwebtoken");
 //bring model
 const User = require("../../models/User");
 
-//@route POSt api/users
-//@descp Test route
+//@route POST api/users
+//@descp Refister User
 //@access Public
 
 router.post(
@@ -57,8 +60,18 @@ router.post(
       await user.save();
 
       //Return jsonwebtoken
+      const payload = {
+        user: {
+          id: user.id,
+        },
+      };
 
-      res.send("Registration Successfull");
+      jwt.sign(payload, jwtSecret, { expiresIn: 36000000 }, (err, token) => {
+        if (err) throw err;
+        res.json({ token });
+      });
+
+      //res.send("Registration Successfull");
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server error");
