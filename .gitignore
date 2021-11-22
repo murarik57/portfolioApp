@@ -7,6 +7,8 @@
 .vscode
 
 /config/default.json
+/client/node_modules
+
 
 # testing
 /coverage
