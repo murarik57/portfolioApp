@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { setAlertStart } from "../../actions/alert.action";
+import { v4 as uuidv4 } from "uuid";
 
-const Register = () => {
+const Register = ({ setAlertStart }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -18,14 +21,15 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
-      alert("Pswrd mismatch");
+      const id = uuidv4();
+      setAlertStart("Password Mismatched", "danger", id);
     } else {
       console.log("Registration done");
     }
   };
 
   return (
-    <section className="container">
+    <Fragment>
       <h1 className="large text-primary">Sign Up</h1>
       <p className="lead">
         <i className="fas fa-user"></i> Create Your Account
@@ -82,8 +86,11 @@ const Register = () => {
       <p className="my-1">
         Already have an account? <Link to="/login">Sign In</Link>
       </p>
-    </section>
+    </Fragment>
   );
 };
-
-export default Register;
+const mapDispatchToProps = (dispatch) => ({
+  setAlertStart: (msg, alertType, id) =>
+    dispatch(setAlertStart(msg, alertType, id)),
+});
+export default connect(null, mapDispatchToProps)(Register);
