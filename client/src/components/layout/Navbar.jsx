@@ -14,15 +14,20 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
       <ul>
         <li>
-          <Link to="!#">Developers</Link>
+          <Link to="/developers">Developers</Link>
         </li>
         {!loading && isAuthenticated ? (
-          <li>
-            <a href="#!" onClick={logout}>
-              <i className="fas fa-sign-out-alt"></i>{" "}
-              <span className="hide-sm">Logout</span>
-            </a>
-          </li>
+          <Fragment>
+            <li>
+              <Link to="/dashboard">Dashboard</Link>
+            </li>
+            <li>
+              <a href="#!" onClick={logout}>
+                <i className="fas fa-sign-out-alt"></i>{" "}
+                <span className="hide-sm">Logout</span>
+              </a>
+            </li>
+          </Fragment>
         ) : (
           <Fragment>
             <li>

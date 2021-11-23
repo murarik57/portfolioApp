@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
@@ -11,6 +11,8 @@ import { loadUserStart } from "./actions/auth.action";
 import { Provider } from "react-redux";
 import Store from "./redux/store";
 import setAuthToken from "./utils/setAuthToken.utils";
+import Dashboard from "./components/dashboard/Dashboard";
+import PrivateRoute from "./components/routing/PrivateRoute";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -25,16 +27,15 @@ const App = () => {
       <BrowserRouter>
         <Fragment>
           <Navbar />
-          <Routes>
-            <Route path="/" element={<Landing />} />
-          </Routes>
+          <Route exact path="/" component={Landing} />
 
           <section className="container">
             <Alert />
-            <Routes>
-              <Route path="register" element={<Register />} />
-              <Route path="login" element={<Login />} />
-            </Routes>
+            <Switch>
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/login" component={Login} />
+              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            </Switch>
           </section>
         </Fragment>
       </BrowserRouter>
