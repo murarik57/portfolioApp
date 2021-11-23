@@ -19,13 +19,16 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
         {!loading && isAuthenticated ? (
           <Fragment>
             <li>
-              <Link to="/dashboard">Dashboard</Link>
+              <Link to="/dashboard">
+                <i className="fas fa-user" />{" "}
+                <span className="hide-sm">Dashboard</span>
+              </Link>
             </li>
             <li>
-              <a href="#!" onClick={logout}>
-                <i className="fas fa-sign-out-alt"></i>{" "}
+              <Link to="/login" onClick={logout}>
+                <i className="fas fa-sign-out-alt" />{" "}
                 <span className="hide-sm">Logout</span>
-              </a>
+              </Link>
             </li>
           </Fragment>
         ) : (
