@@ -1,6 +1,6 @@
 import { GET_PROFILE, PROFILE_ERROR } from "./types";
 import axios from "axios";
-import { setAlert } from "./alert.action";
+import { setAlertStart } from "./alert.action";
 
 //Get current user profiles
 export const getCurrentProfileStart = () => {
@@ -12,6 +12,39 @@ export const getCurrentProfileStart = () => {
         payload: res.data,
       });
     } catch (err) {
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+    }
+  };
+};
+//Create or update profile
+export const createProfileStart = (formData, history, edit = false) => {
+  return async (dispatch) => {
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const res = await axios.post("/api/profile", formData, config);
+      dispatch({
+        type: GET_PROFILE,
+        payload: res.data,
+      });
+      dispatch(
+        setAlertStart(edit ? "Profile Updated" : "Profile Created", "success")
+      );
+      if (!edit) {
+        history.push("/dashboard");
+      }
+    } catch (err) {
+      const errors = err.response.data.errors;
+
+      if (errors) {
+        errors.forEach((error) => dispatch(setAlertStart(error.msg, "danger")));
+      }
       dispatch({
         type: PROFILE_ERROR,
         payload: { msg: err.response.statusText, status: err.response.status },

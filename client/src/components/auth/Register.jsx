@@ -18,7 +18,7 @@ const Register = ({ setAlertStart, registerationStart, isAuthenticated }) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (password !== password2) {
       setAlertStart("Password Mismatched", "danger");
