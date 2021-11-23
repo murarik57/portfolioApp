@@ -32,8 +32,8 @@ const App = () => {
           <section className="container">
             <Alert />
             <Routes>
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
+              <Route path="register" element={<Register />} />
+              <Route path="login" element={<Login />} />
             </Routes>
           </section>
         </Fragment>

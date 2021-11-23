@@ -1,7 +1,10 @@
 import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
-const Login = () => {
+import { connect } from "react-redux";
+import { loginStart } from "../../actions/auth.action";
+
+const Login = ({ loginStart, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -16,8 +19,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Login done");
+    loginStart(email, password);
   };
+  //Redirect if logged in
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" />;
+  }
 
   return (
     <Fragment>
@@ -48,7 +55,7 @@ const Login = () => {
           />
         </div>
 
-        <input type="submit" className="btn btn-primary" value="Register" />
+        <input type="submit" className="btn btn-primary" value="Login" />
       </form>
       <p className="my-1">
         Don't have an account? <Link to="/register">Sign Up</Link>
@@ -56,5 +63,10 @@ const Login = () => {
     </Fragment>
   );
 };
-
-export default Login;
+const mapDispatchToProps = (dispatch) => ({
+  loginStart: (email, password) => dispatch(loginStart(email, password)),
+});
+const mapStateToProps = ({ auth: { isAuthenticated } }) => ({
+  isAuthenticated,
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

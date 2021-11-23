@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { setAlertStart } from "../../actions/alert.action";
 import { registerationStart } from "../../actions/auth.action";
 
-const Register = ({ setAlertStart, registerationStart }) => {
+const Register = ({ setAlertStart, registerationStart, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -26,7 +26,10 @@ const Register = ({ setAlertStart, registerationStart }) => {
       registerationStart({ name, email, password });
     }
   };
-
+  //Redirect if logged in
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" />;
+  }
   return (
     <Fragment>
       <h1 className="large text-primary">Sign Up</h1>
@@ -92,4 +95,7 @@ const mapDispatchToProps = (dispatch) => ({
   setAlertStart: (msg, alertType) => dispatch(setAlertStart(msg, alertType)),
   registerationStart: (data) => dispatch(registerationStart(data)),
 });
-export default connect(null, mapDispatchToProps)(Register);
+const mapStateToProps = ({ auth: { isAuthenticated } }) => ({
+  isAuthenticated,
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

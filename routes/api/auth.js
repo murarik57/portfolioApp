@@ -9,15 +9,15 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 //@route GET api/auth
-//@descp Test route
-//@access Public
+//@descp get usr by token
+//@access Private
 router.get("/", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
     res.json(user);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Internal server Error");
+    return res.status(500).send("Server Error");
   }
 });
 
@@ -44,7 +44,7 @@ router.post(
       let user = await User.findOne({ email });
 
       if (!user) {
-        return res.status(400).json({ errors: { msg: "Email not found" } });
+        return res.status(400).json({ errors: [{ msg: "Email not found" }] });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);

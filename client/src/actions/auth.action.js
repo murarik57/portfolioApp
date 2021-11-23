@@ -3,6 +3,9 @@ import {
   REGISTER_SUCCESS,
   USER_LOADED,
   AUTH_ERROR,
+  LOGIN_FAIL,
+  LOGIN_SUCCESS,
+  LOGOUT,
 } from "./types";
 import axios from "axios";
 import { setAlertStart } from "./alert.action";
@@ -30,6 +33,7 @@ export const registerationStart = ({ name, email, password }) => {
       const res = await axios.post("/api/users", body, config);
       console.log(res.data);
       dispatch(registerSuccess(res.data));
+      dispatch(loadUserStart());
     } catch (err) {
       const errors = err.response.data.errors;
       if (errors) {
@@ -59,3 +63,38 @@ export const loadUserStart = () => {
     }
   };
 };
+
+//login user
+export const loginStart = (email, password) => {
+  return async (dispatch) => {
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const body = JSON.stringify({ email, password });
+    try {
+      const res = await axios.post("/api/auth", body, config);
+      console.log(res.data);
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data,
+      });
+      dispatch(loadUserStart());
+    } catch (err) {
+      const errors = err.response.data.errors;
+
+      if (errors) {
+        errors.forEach((error) => dispatch(setAlertStart(error.msg, "danger")));
+      }
+      dispatch({
+        type: LOGIN_FAIL,
+      });
+    }
+  };
+};
+//logout / clearr pfiles
+
+export const logout = () => ({
+  type: LOGOUT,
+});
