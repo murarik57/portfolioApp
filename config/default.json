@@ -1,0 +1,6 @@
+{
+    "mongoURI":"mongodb+srv://black:goIsple%403579@mern.qs0ey.mongodb.net/MERN?retryWrites=true&w=majority",
+    "jwtSecret":"mysecretSecret",
+    "githubClientId":"b758fce8e4ec107011c1",
+    "githubClientSecret":"a8e6c3756f89bbee1742eeb37080cc5ccf962d10"
+}
