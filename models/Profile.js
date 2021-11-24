@@ -46,7 +46,7 @@ const ProfileSchema = new Schema({
         type: Date,
         required: true,
       },
-      tp: {
+      to: {
         type: Date,
       },
       current: {
@@ -75,7 +75,7 @@ const ProfileSchema = new Schema({
         type: Date,
         required: true,
       },
-      tp: {
+      to: {
         type: Date,
       },
       current: {

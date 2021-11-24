@@ -6,6 +6,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   LOGIN_SUCCESS,
+  DELETE_ACCOUNT,
 } from "../../actions/types";
 
 const initialState = {
@@ -33,6 +34,7 @@ const authReducer = (state = initialState, { type, payload }) => {
     case AUTH_ERROR:
     case LOGOUT:
     case LOGIN_FAIL:
+    case DELETE_ACCOUNT:
       localStorage.removeItem("token");
       return {
         ...state,
