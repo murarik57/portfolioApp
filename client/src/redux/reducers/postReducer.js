@@ -1,6 +1,7 @@
 import {
   POST_ERROR,
   GET_POSTS,
+  GET_POST,
   UPDATE_LIKES,
   DELETE_POST,
   ADD_POST,
@@ -16,6 +17,12 @@ const postReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case GET_POSTS:
       return { ...state, posts: payload, loading: false };
+    case GET_POST:
+      return {
+        ...state,
+        post: payload,
+        loading: false,
+      };
     case ADD_POST:
       return {
         ...state,
