@@ -79,7 +79,6 @@ const AddExperience = ({ addExperienceStart, history }) => {
                 setFormData({ ...formData, current: !current });
               }}
               name="current"
-              value=""
             />{" "}
             Current Job
           </p>

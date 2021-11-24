@@ -80,7 +80,6 @@ const AddEducation = ({ addEducationStart, history }) => {
                 setFormData({ ...formData, current: !current });
               }}
               name="current"
-              value=""
             />{" "}
             Currently here
           </p>

@@ -14,7 +14,7 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
       <ul>
         <li>
-          <Link to="/developers">Developers</Link>
+          <Link to="/profiles">Developers</Link>
         </li>
         {!loading && isAuthenticated ? (
           <Fragment>
