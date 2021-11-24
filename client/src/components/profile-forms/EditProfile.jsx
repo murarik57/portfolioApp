@@ -1,9 +1,17 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
-import { createProfileStart } from "../../actions/profile.actions";
+import {
+  createProfileStart,
+  getCurrentProfileStart,
+} from "../../actions/profile.actions";
 
-const CreateProfile = ({ createProfileStart, history }) => {
+const EditProfile = ({
+  profile: { profile, loading },
+  createProfileStart,
+  getCurrentProfileStart,
+  history,
+}) => {
   const [formData, setFormData] = useState({
     company: "",
     webiste: "",
@@ -20,6 +28,25 @@ const CreateProfile = ({ createProfileStart, history }) => {
   });
 
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
+  useEffect(() => {
+    getCurrentProfileStart();
+
+    setFormData({
+      company: loading || !profile.company ? "" : profile.company,
+      website: loading || !profile.website ? "" : profile.website,
+      location: loading || !profile.location ? "" : profile.location,
+      status: loading || !profile.status ? "" : profile.status,
+      skills: loading || !profile.skills ? "" : profile.skills,
+      githubusername:
+        loading || !profile.githubusername ? "" : profile.githubusername,
+      bio: loading || !profile.bio ? "" : profile.bio,
+      twitter: loading || !profile.social ? "" : profile.social.twitter,
+      facebook: loading || !profile.social ? "" : profile.social.facebook,
+      linkedin: loading || !profile.social ? "" : profile.social.linkedin,
+      youtube: loading || !profile.social ? "" : profile.social.youtube,
+      instagram: loading || !profile.social ? "" : profile.social.instagram,
+    });
+  }, [loading]);
   const {
     company,
     website,
@@ -38,8 +65,9 @@ const CreateProfile = ({ createProfileStart, history }) => {
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const handleSubmit = (e) => {
+    const edit = true;
     e.preventDefault();
-    createProfileStart(formData, history);
+    createProfileStart(formData, history, edit);
   };
   return (
     <Fragment>
@@ -220,8 +248,15 @@ const CreateProfile = ({ createProfileStart, history }) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  createProfileStart: (formData, history) =>
-    dispatch(createProfileStart(formData, history)),
+  createProfileStart: (formData, history, edit) =>
+    dispatch(createProfileStart(formData, history, edit)),
+  getCurrentProfileStart: () => dispatch(getCurrentProfileStart()),
+});
+const mapStateToProps = ({ profile }) => ({
+  profile,
 });
 
-export default connect(null, mapDispatchToProps)(withRouter(CreateProfile));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(EditProfile));
