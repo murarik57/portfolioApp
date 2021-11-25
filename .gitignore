@@ -6,6 +6,7 @@
 .pnp.js
 .vscode
 config/default.json
+config/production.json
 
 /client/node_modules
 
