@@ -52,6 +52,7 @@ const postReducer = (state = initialState, { type, payload }) => {
             (comment) => comment._id !== payload
           ),
         },
+        loading: false,
       };
     case UPDATE_LIKES:
       return {
